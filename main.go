@@ -26,8 +26,6 @@ func getDirectoryScan() (string, error) {
 }
 
 func main() {
-	var filesStatInfo FilesStatInfo
-	var folderStatInfo FilesStatInfo
 	var fileInfoWriter = FileInfoWriter{fileName: "files.txt"}
 	var folderInfoWriter = FileInfoWriter{fileName: "folders.txt"}
 	var scanner DirectoryScanner
@@ -43,14 +41,14 @@ func main() {
 		return
 	}
 
-	go fileInfoWriter.WriteInfo(&filesStatInfo)
-	go folderInfoWriter.WriteInfo(&folderStatInfo)
+	go fileInfoWriter.WaitInfo()
+	go folderInfoWriter.WaitInfo()
 
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go scanner.Scan(scanPath, &wg, &folderInfoWriter, &fileInfoWriter)
 	wg.Wait()
 
-	fmt.Printf("Total files: %d\n", filesStatInfo.count)
-	fmt.Printf("Total folders: %d\n", folderStatInfo.count)
+	fmt.Printf("Total files: %d\n", fileInfoWriter.fileStatInfo.count)
+	fmt.Printf("Total folders: %d\n", folderInfoWriter.fileStatInfo.count)
 }

@@ -6,8 +6,9 @@ import (
 )
 
 type FileInfoWriter struct {
-	fileName  string
-	filesChan chan string
+	fileName     string
+	filesChan    chan string
+	fileStatInfo FilesStatInfo
 }
 
 func (fw *FileInfoWriter) Create() {
@@ -22,7 +23,7 @@ func (fw *FileInfoWriter) PutFileName(fileName string) {
 	fw.filesChan <- fileName
 }
 
-func (fw *FileInfoWriter) WriteInfo(fsi *FilesStatInfo) {
+func (fw *FileInfoWriter) WaitInfo() {
 	file, err := os.Create(fw.fileName)
 	if err != nil {
 		log.Fatalf("Error opening file: %v", err)
@@ -34,6 +35,6 @@ func (fw *FileInfoWriter) WriteInfo(fsi *FilesStatInfo) {
 		if err != nil {
 			return
 		}
-		fsi.IncreaseCount()
+		fw.fileStatInfo.IncreaseCount()
 	}
 }
