@@ -28,7 +28,6 @@ func (ds *DirectoryScanner) Scan(filePath string, wg *sync.WaitGroup, folderWrit
 		log.Fatalf("Error reading directory: %v", err)
 	}
 
-	fmt.Printf("Contents of directory '%s':\n", filePath)
 	for _, entry := range entries {
 		if entry.IsDir() {
 			folderWriter.PutFileName(entry.Name())

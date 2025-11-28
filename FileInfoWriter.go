@@ -29,8 +29,8 @@ func (fw *FileInfoWriter) WriteInfo(fsi *FilesStatInfo) {
 	}
 	defer file.Close()
 
-	for folderName := range fw.filesChan {
-		_, err := file.WriteString(folderName + "\n")
+	for fileName := range fw.filesChan {
+		_, err := file.WriteString(fileName + "\n")
 		if err != nil {
 			return
 		}
