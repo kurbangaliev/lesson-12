@@ -21,7 +21,7 @@ func getDirectoryScan() (string, error) {
 		firstArg := os.Args[1]
 		return firstArg, nil
 	} else {
-		return "", errors.New("No argument. Please input path of scan directory.")
+		return "", errors.New("no argument. please input path of scan directory.\n")
 	}
 }
 
